@@ -10,12 +10,16 @@ def create_data():
   """Creates the data."""
   data = {}
   data['API_key'] = 'AIzaSyA6T3-uxZ2AZ--uYDRzMuAtzW9KK71geis'
-  data['addresses'] = ['41.7160449,-8.8438683', '41.70154,-8.8373567', '41.6900904,-8.8324579', '41.6905816,-8.8301721']
+  data['addresses'] = ['41.7160449,-8.8438683', # Viana do Castelo
+                       '41.70154,-8.8373567', # Santa Luzia
+                       '41.6900904,-8.8324579', # gil eanes
+                       '41.6905816,-8.8301721'  # cerqueiras
+                       ]
   data['time_windows'] = [
-    (0, 10000),  # depot
-    (500, 8000),
-    (10, 10000),
-    (500,2130),
+    (0, 2000),  # depot
+    (100, 3000),
+    (600, 2000),
+    (1000, 10000),
   ]
   data['num_vehicles'] = 2
   data['depot'] = 0
