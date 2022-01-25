@@ -16,10 +16,10 @@ def create_data():
                        '41.6905816,-8.8301721'  # cerqueiras
                        ]
   data['time_windows'] = [
-    (0, 2000),  # depot
-    (100, 3000),
-    (600, 2000),
-    (1000, 10000),
+    (0, 500),  # depot
+    (0, 540),
+    (700, 2000),
+    (800, 2000),
   ]
   data['num_vehicles'] = 2
   data['depot'] = 0
@@ -118,8 +118,7 @@ def main():
   data = create_data()
 
   # Create the routing index manager.
-  manager = pywrapcp.RoutingIndexManager(len(distance_matrix),
-                                         data['num_vehicles'], data['depot'])
+  manager = pywrapcp.RoutingIndexManager(len(distance_matrix), data['num_vehicles'], data['depot'])
 
   # Create Routing Model.
   routing = pywrapcp.RoutingModel(manager)
@@ -141,8 +140,8 @@ def main():
   time = 'Time'
   routing.AddDimension(
     transit_callback_index,
-    30,  # allow waiting time
-    30,  # maximum time per vehicle
+    300,  # allow waiting time
+    1500,  # maximum time per vehicle
     False,  # Don't force start cumul to zero.
     time)
   time_dimension = routing.GetDimensionOrDie(time)
