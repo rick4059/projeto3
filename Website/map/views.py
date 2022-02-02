@@ -33,9 +33,39 @@ def index(request):
 
         folium.Marker([lat, long], tooltip='Click for more', popup='Armazém').add_to(m)
 
-    #implementação da rota
-    coords = []
 
+    #HTML representation of the object
+    m = m._repr_html_()
+
+    context = {
+        'm': m,
+    }
+
+    return render(request, 'index.html', context)
+
+def GetRoute(request):
+    # Create Map Object
+    m = folium.Map(
+        location=[41.697210, -8.832654],
+        zoom_start=15
+    )
+    dados = create_data()
+
+    for coordenada in dados['addresses']:
+        index = coordenada.find(',')
+        lat = coordenada[0:index]
+
+        temp = index + 1
+        long = coordenada[temp:]
+
+        lat = float(lat)
+        long = float(long)
+
+        folium.Marker([lat, long], tooltip='Click for more', popup='Armazém').add_to(m)
+
+    dados = create_data()
+    # implementação da rota
+    coords = []
 
     for coordenada in dados['addresses']:
         index = coordenada.find(',')
@@ -60,7 +90,7 @@ def index(request):
 
     m.save('map.html')
 
-    #HTML representation of the object
+    # HTML representation of the object
     m = m._repr_html_()
 
     context = {
