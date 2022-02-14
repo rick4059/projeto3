@@ -30,43 +30,30 @@ def create_data():
 
 def print_solution(data, manager, routing, solution):
     """Prints solution on console."""
-    #print(f'Objective: {solution.ObjectiveValue()}')
     time_dimension = routing.GetDimensionOrDie('Time')
-    total_time = 0
-    
     json_output = []
+    
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
-        plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
         coordenadasRoute = []
-        
+        hexadecimalColors = ['#00ff00', '#ffff00']
+            
         while not routing.IsEnd(index):
             time_var = time_dimension.CumulVar(index)
-            plan_output += '{0}\n'.format(data['addresses'][manager.IndexToNode(index)])
             coordenadasRoute.append(data['addresses'][manager.IndexToNode(index)])
             index = solution.Value(routing.NextVar(index))
 
         time_var = time_dimension.CumulVar(index)
-        plan_output += '{0}\n'.format(data['addresses'][manager.IndexToNode(index)])
         coordenadasRoute.append(data['addresses'][manager.IndexToNode(index)])
-        plan_output += 'Time of the route: {}min\n'.format(solution.Min(time_var))
-        
-        print(plan_output)
-        print(coordenadasRoute)
+        coordenadasRoute.append(solution.Min(time_var))
+        coordenadasRoute.append(hexadecimalColors[vehicle_id])
         json_output.append(coordenadasRoute)
-        json_output.append(solution.Min(time_var))
-        total_time += solution.Min(time_var)
         
+    print('Rotas enviadas para ficheiro JSON')
+
+    with open('route.json', '+w') as f:
+        json.dump(json_output, f, indent=4, sort_keys=True)
         
-
-    print('Total time of all routes: {}min'.format(total_time))
-    json_output.append(total_time)
-
-    file = open('route.json', '+w')
-    file.write(json.dumps(json_output, indent=4, sort_keys=True))
-    file.flush()
-    file.close()
-
 
 def create_distance_matrix(data):
     addresses = data["addresses"]
