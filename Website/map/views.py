@@ -8,8 +8,8 @@ from openrouteservice import convert
 import json
 import random
 
-#sys.path.insert(0, r"D:\Escola\orTools\Website\map\Backend")
-sys.path.insert(0, r"C:\Users\user\Documents\GitHub\projeto3\Website\map\Backend")
+sys.path.insert(0, r"D:\Escola\Projeto3\Website\map\Backend")
+#sys.path.insert(0, r"C:\Users\user\Documents\GitHub\projeto3\Website\map\Backend")
 
 from DefineRoutes import create_data
 from DefineRoutes import print_solution
@@ -76,7 +76,7 @@ def GetRoute(request):
             ).add_to(m)
 
     # read json file from backend
-    data = open('C:/Users/user/Documents/GitHub/projeto3/Website/route.json').read() #opens the json file and saves the raw contents
+    data = open('D:/Escola/Projeto3/Website/route.json').read() #opens the json file and saves the raw contents
     jsonData = json.loads(data) #converts to a json structure
         
     for rota in jsonData:

@@ -14,13 +14,17 @@ def create_data():
     data['addresses'] = ['41.7160449,-8.8438683',  # Viana do Castelo
                          '41.70154,-8.8373567',  # Santa Luzia
                          '41.6900904,-8.8324579',  # gil eanes
-                         '41.6905816,-8.8301721'  # cerqueiras
+                         '41.6905816,-8.8301721',  # cerqueiras
+                         '41.6942607,-8.8490523',   # ESTG
+                         '41.7247031,-8.8460769'    # poço negro
                          ]
     data['time_windows'] = [
-        (0, 500),  # depot
-        (0, 540),
-        (700, 2000),
-        (800, 2000),
+        (0, 60),  # depot
+        (20, 50),
+        (20, 70),
+        (10, 20),
+        (10, 30),
+        (30,45),
     ]
     data['num_vehicles'] = 2
     data['depot'] = 0
@@ -124,7 +128,7 @@ def main():
     addresses = data['addresses']
     API_key = data['API_key']
     distance_matrix = create_distance_matrix(data)
-    #print(distance_matrix)
+    print(distance_matrix)
 
     """Solve the VRP with time windows."""
     # Instantiate the data problem.
@@ -153,8 +157,8 @@ def main():
     time = 'Time'
     routing.AddDimension(
         transit_callback_index,
-        300,  # allow waiting time
-        1500,  # maximum time per vehicle
+        86400,  # allow waiting time
+        604800,  # maximum time per vehicle
         False,  # Don't force start cumul to zero.
         time)
     time_dimension = routing.GetDimensionOrDie(time)
