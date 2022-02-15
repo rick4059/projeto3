@@ -24,7 +24,7 @@ def create_data():
         (20, 70),
         (10, 20),
         (10, 30),
-        (30,45),
+        (30, 45),
     ]
     data['num_vehicles'] = 2
     data['depot'] = 0
@@ -40,7 +40,6 @@ def print_solution(data, manager, routing, solution):
     for vehicle_id in range(data['num_vehicles']):
         index = routing.Start(vehicle_id)
         coordenadasRoute = []
-        hexadecimalColors = ['#00ff00', '#ffff00']
             
         while not routing.IsEnd(index):
             time_var = time_dimension.CumulVar(index)
@@ -50,7 +49,7 @@ def print_solution(data, manager, routing, solution):
         time_var = time_dimension.CumulVar(index)
         coordenadasRoute.append(data['addresses'][manager.IndexToNode(index)])
         coordenadasRoute.append(solution.Min(time_var))
-        coordenadasRoute.append(hexadecimalColors[vehicle_id])
+        coordenadasRoute.append("Vehicle {0}".format(vehicle_id + 1) )
         json_output.append(coordenadasRoute)
         
     print('Rotas enviadas para ficheiro JSON')

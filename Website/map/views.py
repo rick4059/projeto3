@@ -8,8 +8,8 @@ from openrouteservice import convert
 import json
 import random
 
-sys.path.insert(0, r"D:\Escola\Projeto3\Website\map\Backend")
-#sys.path.insert(0, r"C:\Users\user\Documents\GitHub\projeto3\Website\map\Backend")
+#sys.path.insert(0, r"D:\Escola\Projeto3\Website\map\Backend")
+sys.path.insert(0, r"C:\Users\user\Documents\GitHub\projeto3\Website\map\Backend")
 
 from DefineRoutes import create_data
 from DefineRoutes import print_solution
@@ -71,24 +71,25 @@ def GetRoute(request):
             folium.Marker(
                 [lat, long], 
                 tooltip='Mais Informação', 
-                popup='<h4> Ponto de Distribuição <h4>' + str([lat,long]), 
+                popup='<h4> Ponto de Distribuição <h4>' + str([lat,long]),
                 icon=folium.Icon(color="blue")
             ).add_to(m)
 
     # read json file from backend
-    data = open('D:/Escola/Projeto3/Website/route.json').read() #opens the json file and saves the raw contents
+    data = open('C:/Users/user/Documents/GitHub/projeto3/Website/route.json').read()
+    #data = open('D:/Escola/Projeto3/Website/route.json').read() #opens the json file and saves the raw contents
     jsonData = json.loads(data) #converts to a json structure
         
     for rota in jsonData:
         coords = [] # implementação da rota
-        pickColor = rota.pop()
+        pickVehicle = rota.pop()
         tempoRota = rota.pop()
 
-        for coordenada in rota:
-            index = coordenada.find(',')
-            lat = coordenada[0:index]
+        for coordenada in range(len(rota)):
+            index = rota[coordenada].find(',')
+            lat = rota[coordenada][0:index]
             temp = index + 1
-            long = coordenada[temp:]
+            long = rota[coordenada][temp:]
             lat = float(lat)
             long = float(long)
             formatted_lat = "{:.14f}".format(lat)
@@ -100,11 +101,10 @@ def GetRoute(request):
         decoded = convert.decode_polyline(geometry)
         folium.GeoJson(
             decoded,
-            style_function=lambda x, color=pickColor:{
-                "color": pickColor
-            }
+            name=pickVehicle,
         ).add_child(folium.Popup('<h4> Time of route: {0} min <h4>'.format(tempoRota),max_width=300)).add_to(m) 
 
+    folium.LayerControl().add_to(m)
     m.save('map.html')
 
     # HTML representation of the object
