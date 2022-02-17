@@ -16,8 +16,8 @@ def create_data():
                          '41.6900904,-8.8324579',  # gil eanes
                          '41.6905816,-8.8301721',  # cerqueiras
                          '41.6942607,-8.8490523',   # ESTG
-                         '41.7247031,-8.8460769'    # poço negro
-                         ]
+                         '41.7247031,-8.8460769']    # poço negro
+    data['addressesNames'] = ["Viana do Castelo", "Santa Luzia", "Gil Eanes", "Praça da Republica", "ESTG", "Povoença"]
     data['time_windows'] = [
         (0, 60),  # depot
         (20, 50),
@@ -127,7 +127,7 @@ def main():
     addresses = data['addresses']
     API_key = data['API_key']
     distance_matrix = create_distance_matrix(data)
-    print(distance_matrix)
+    #print(distance_matrix)
 
     """Solve the VRP with time windows."""
     # Instantiate the data problem.

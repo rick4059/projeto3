@@ -47,6 +47,7 @@ def GetRoute(request):
     dados = create_data()
     print_solution(dados, teste[0], teste[1], teste[2])
     pontos = dados['addresses']
+    nomes = dados['addressesNames']
 
     for i in range(len(pontos)):
         #fragmentar coordenada
@@ -62,16 +63,16 @@ def GetRoute(request):
         if i == 0:
             folium.Marker(
                 [lat, long], 
-                tooltip='Mais Informação', 
-                popup="<h4> Armazém <h4>"  + str([lat,long]) ,
+                tooltip='More Info', 
+                popup="<h4> {0} <h4>".format(nomes[i])  + str([lat,long]) ,
                 icon=folium.Icon(color="red")
             ).add_to(m)
         
         else:      
             folium.Marker(
                 [lat, long], 
-                tooltip='Mais Informação', 
-                popup='<h4> Ponto de Distribuição <h4>' + str([lat,long]),
+                tooltip='More Info', 
+                popup="<h4> {0} <h4>".format(nomes[i]) + str([lat,long]),
                 icon=folium.Icon(color="blue")
             ).add_to(m)
 
@@ -102,7 +103,9 @@ def GetRoute(request):
         folium.GeoJson(
             decoded,
             name=pickVehicle,
-        ).add_child(folium.Popup('<h4> Time of route: {0} min <h4>'.format(tempoRota),max_width=300)).add_to(m) 
+        ).add_child(
+            folium.Popup('<h4> Time of route: {0} min <h4>'.format(tempoRota),max_width=300)
+        ).add_to(m)
 
     folium.LayerControl().add_to(m)
     m.save('map.html')
